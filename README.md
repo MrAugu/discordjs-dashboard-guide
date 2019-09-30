@@ -38,3 +38,50 @@ passport.deserializeUser((obj, done) => {
     done(null, obj);
 });
 ```
+Now we are going to create a new strategy for passport.
+```js
+const strategy = new Strategy({
+    clientID: "Your bot's user id goes here.",
+    clientSecret: "Your client secret goes here.",
+    callbackURL: "http://localhost:8000/callback", // The url that will handle callbacks.
+    scope: ["identify", "guilds"] // Get tag and profile picture + servers user is in.
+  },
+  (accessToken, refreshToken, profile, done) => {
+    process.nextTick(() => done(null, profile));
+});
+
+passport.use(strategy);
+```
+And we load the passport into the webserver.
+```js
+  app.use(passport.initialize());
+  app.use(passport.session());
+```
+We are going to set the view engine.
+```js
+const ejs = require("ejs"); // You can get this from npm as well.
+app.engine("html", ejs.renderFile);
+app.set("view engine", "html");
+```
+To handle the forms that use will input data in, we need to use another middleware called `body-parser`.
+```js
+var bodyParser = require("body-parser");
+  app.use(bodyParser.json());
+  app.use(bodyParser.urlencoded({
+    extended: true
+  }));
+```
+To keep user logged in between pages, we need to use `memorystore` and `express-session` (you can get both from npm).
+```js
+const session = require("express-session");
+const MemoryStore = require("memorystore");
+const mStore = MemoryStore(session); // We initialize memorystore with express-session.
+```
+Now we need to configure them.
+```js
+app.use(session({
+    store: new mStore({ checkPeriod: 86400000 }), // we refresh the store each day
+    secret: "A_RANDOM_STRING_FOR_SECURITY_PURPOSES_OH_MY",
+    resave: false,
+    saveUninitialized: false
+}));```
