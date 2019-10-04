@@ -1,6 +1,5 @@
 # Intoduction
-In this guide we'll be creating a small discord bot dashboard for managing guild settings, nothing too fancy.
-
+In this guide we'll be creating a small discord bot dashboard for managing guild settings, nothing too fancy. This is currently being worked on.
 # Software
 We'll be using `mongoose` to interact with our MongoDB database, we are also going to use `express` (+ a little middleware) to set up the web server. To handle logins we'll be using `passport`. As a viewing engine we'll use `ejs` which will convert html + server side scripts into full html pages that can be display by the browser. The tutorial is 99% compatible with both `Stable` and `Dev` version of Discord.Js.
 
