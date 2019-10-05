@@ -130,3 +130,32 @@ app.get("/logout", function (req, res) {
   });
 });
 ```
+# #3 Handy Functions
+We are going to create some functions that will become handy.
+
+**1. Authenticate Function**
+
+This lets us check if user is logged in and if not redirect him, in a convenient way.
+```js
+const authenticate = (req, res, next) => {
+  if (req.isAuthenticated()) return next(); // If the user is logged in, we skip execution of the rest of the code in this function and let the code for te route run.
+  req.session.backURL = req.url; // If execution reached this point, means that user is not logged in and we can set the return url to the current url.
+  res.redirect("/login"); // And we redirect it to our login handler that will do the job.
+};
+```
+**2. Render Function**
+
+This lets us render templates in a convenient way.
+
+```js
+const render = (req, res, template, data = {}) => {
+  const baseData = {
+    path: req.path, // Current path of the url
+    user: req.isAuthenticated() ? req.user : null // If user is authenticated, we pass user, otherwise null.
+  };
+  
+  const mergedData = Object.assign(baseData, data); // We merge the base data with data provided to function.
+  const templatePath = path.resolve(`${templateDirectory}${path.sep}${template}`); // We resolve the template.
+  
+  res.render(templatePath, mergedData); // We render the template.
+};
