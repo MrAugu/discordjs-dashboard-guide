@@ -85,3 +85,43 @@ app.use(session({
     saveUninitialized: false
 }));
 ```
+As our web-server is set up, we can begin to setup the routes that handle logins.
+
+# #2 Login, Callback and Logout Routes
+**1.Login Route**
+Inside this route a returning URL is being set and user gets redirected to the appropriate discord auth page.
+```js
+app.get("/login", (req, res, next) => {
+  if (req.session.backURL) { // We check if there a return URL has been set prior redirecting/accesing.
+  /* Return URL is the url that user will be redirected to after login. */
+    req.session.backURL = req.session.backURL;
+  } else { // If there is no return URL we simply set it to index page.
+    req.session.backURL = "/";
+  }
+  // Now that we have configured the returning URL, we can let passport redirect user to appropriate auth page.
+  next();
+}, passport.authenticate("discord"));
+```
+**2. Callback Route**
+```js
+Here passport takes data returned from discord and we redirect user accordingly.
+app.get("/callback", passport.authenticate("discord", { failureRedirect: "/" }), (req, res) => { // Passport collects data that discord has returned and if user aborted auhorization it redirects to '/'
+  session.us = req.user;
+  if (req.session.backURL) { // If there is a returning url we redirect user to it.
+    const url = req.session.backURL;
+    req.session.backURL = null; // We change returning url to null for little more performance.
+    res.redirect(url);
+  } else { // If there still isn't we won't leave user alone and stuck so well redirect it to index page.
+    res.redirect("/");
+  }
+});
+```
+**3. Logout Route**
+```js
+app.get("/logout", function (req, res) {
+  req.session.destroy(() => { // We destroy session
+    req.logout(); // Inside callback we logout user
+    res.redirect("/"); // And to make sure he isnt on any pages that require authorization, we redirect it to main page.
+  });
+});
+```
