@@ -89,6 +89,7 @@ As our web-server is set up, we can begin to setup the routes that handle logins
 
 # #2 Login, Callback and Logout Routes
 **1.Login Route**
+
 Inside this route a returning URL is being set and user gets redirected to the appropriate discord auth page.
 ```js
 app.get("/login", (req, res, next) => {
@@ -103,6 +104,8 @@ app.get("/login", (req, res, next) => {
 }, passport.authenticate("discord"));
 ```
 **2. Callback Route**
+
+In here we take data from discord, process it and redirect user accordingly.
 ```js
 Here passport takes data returned from discord and we redirect user accordingly.
 app.get("/callback", passport.authenticate("discord", { failureRedirect: "/" }), (req, res) => { // Passport collects data that discord has returned and if user aborted auhorization it redirects to '/'
@@ -117,6 +120,8 @@ app.get("/callback", passport.authenticate("discord", { failureRedirect: "/" }),
 });
 ```
 **3. Logout Route**
+
+In here we logout the user, simple as that.
 ```js
 app.get("/logout", function (req, res) {
   req.session.destroy(() => { // We destroy session
