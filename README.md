@@ -159,3 +159,50 @@ const render = (req, res, template, data = {}) => {
   
   res.render(templatePath, mergedData); // We render the template.
 };
+```
+# #4 Setting Up Assets Folder
+First let's define what paths we are going to use.
+
+In the root folder, let's first create a new folder called `dashboard`. Inside this folder let's create another 2 folders, first is `assets` and the other one is `templates`.
+
+**Setting Up Aseets Folder**
+
+In order to have the `/assets/..` route working without us needing to hardcode everything we set another static route:
+```js
+app.use("/assets", express.static(path.resolve(`${filesDirectory}${path.sep}assets`)));
+```
+
+# #5 First Route
+The index page is the first page user is going to see.
+
+**1. Adding a new route to our express application.**
+
+This makes server process a request and run code when user is accesing this route.
+```js
+app.get("/", (req, res) => { // We set the route so server handles request by running this code.
+  // "/" domain is the root of the domain, for example gooogle.com is a "/" and google.com/somewhat is "/somewhat"
+  renderTemplate( // We call render template function we defined earlier this guide.
+     res, // We pass in the Response object that was returned by express.
+     req, // We pass in the Request object that was returned by express as well.
+     "index.js" // We pass in the template we want to render. The path of the template will result in /templates/index.ejs
+  );
+});
+```
+
+**2. Creating block templates.**
+
+In our templates folder we create a new file called `index.ejs` **must end with `.ejs`**, the ejs view engine extension.
+
+Inside our .ejs fine we can execute server-side javascript using the EJS's specific Tags and also front end javascript within the `<script>` tags and also include HTML and CSS for our front-end.
+
+You can read more about EJS template engine in [EJS's Documentation](https://ejs.co/#docs).
+
+To make our code more cleaner and because we'll be repeating the code most likely, we are going to create a `header.ejs` and `footer.ejs` files that we'll be including in other files.
+
+So.. let's create our files, in our `dashboard/templates` folder, we'll be creating another folder called `blocks`, inside it we create 2 files called `header.ejs` and `footer.ejs`.
+
+In our `header.ejs` we'll be having our `<html>` and `<head>` tag and everything in between, inside the `footer.ejs` we'll be having endings for our tags, the cross-file (that are more or less required on every page) `<script>` tags and possibly an actual footer.
+
+*a) Creating `header.ejs`*
+
+[https://tenor.com/view/intensifies-sooning-soontm-midsizedonkey7-nowhere-gif-12050318](https://tenor.com/view/intensifies-sooning-soontm-midsizedonkey7-nowhere-gif-12050318)
