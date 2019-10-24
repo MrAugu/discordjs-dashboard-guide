@@ -1,5 +1,7 @@
 # Intoduction
 In this guide we'll be creating a small discord bot dashboard for managing guild settings, nothing too fancy. This is currently being worked on.
+
+**If you want to contribute to this guide open a pull request.**
 # Software
 We'll be using `mongoose` to interact with our MongoDB database, we are also going to use `express` (+ a little middleware) to set up the web server. To handle logins we'll be using `passport`. As a viewing engine we'll use `ejs` which will convert html + server side scripts into full html pages that can be display by the browser. The tutorial is 99% compatible with both `Stable` and `Dev` version of Discord.Js.
 
@@ -150,6 +152,7 @@ This lets us render templates in a convenient way.
 ```js
 const render = (req, res, template, data = {}) => {
   const baseData = {
+    bot: client, // Your discord client.
     path: req.path, // Current path of the url
     user: req.isAuthenticated() ? req.user : null // If user is authenticated, we pass user, otherwise null.
   };
@@ -201,8 +204,32 @@ To make our code more cleaner and because we'll be repeating the code most likel
 
 So.. let's create our files, in our `dashboard/templates` folder, we'll be creating another folder called `blocks`, inside it we create 2 files called `header.ejs` and `footer.ejs`.
 
-In our `header.ejs` we'll be having our `<html>` and `<head>` tag and everything in between, inside the `footer.ejs` we'll be having endings for our tags, the cross-file (that are more or less required on every page) `<script>` tags and possibly an actual footer.
+In our `header.ejs` we'll be having our `<html>` and `<head>` tag and everything in between and also a navigation bar, inside the `footer.ejs` we'll be having endings for our tags, the cross-file (that are more or less required on every page) `<script>` tags and possibly an actual footer.
 
 *a) Creating `header.ejs`*
+```ejs
+<!DOCTYPE html>
+<html>
+  <head>
+  <title><%= title %></title> <!-- We'll be setting the title of the page to a title varable that we'll pass in inside each template. -->
+  <link rel="stylesheet" type="text/css" href="assets/style.css"> <!-- Linking our CSS file (we are about to create) from the assets folder. -->
+  </head>
+  <body>
+```
 
-[https://tenor.com/view/intensifies-sooning-soontm-midsizedonkey7-nowhere-gif-12050318](https://tenor.com/view/intensifies-sooning-soontm-midsizedonkey7-nowhere-gif-12050318)
+*b) Creating `footer.ejs`*
+```ejs
+  </boody>
+</html>
+```
+Now we are going to create a `style.css` file inside `dashboard/assets` folder.
+
+**3. Creating our `index.ejs` template.**
+
+```ejs
+<!-- Including our template blocks: -->
+<%- include("blocks/header.ejs", { bot, path, user, title: "Home" }); %> <!-- We include the header and we pass in the optios, the bot, path and user are automatically passed into main file by renderTemplate function  -->
+
+<%- include("blocks/footer.ejs"); %> <!-- We include the footer and we do not pass any parameters as the footer template does not require any. -->
+```
+<img src="https://media1.tenor.com/images/93253f6c6f029c3e056281164084c209/tenor.gif?itemid=12050318" />
