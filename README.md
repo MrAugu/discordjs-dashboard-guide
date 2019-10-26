@@ -189,7 +189,7 @@ app.get("/", (req, res) => { // We set the route so server handles request by ru
   renderTemplate( // We call render template function we defined earlier this guide.
      res, // We pass in the Response object that was returned by express.
      req, // We pass in the Request object that was returned by express as well.
-     "index.js" // We pass in the template we want to render. The path of the template will result in /templates/index.ejs
+     "index.ejs" // We pass in the template we want to render. The path of the template will result in /templates/index.ejs
   );
 });
 ```
