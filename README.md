@@ -1,5 +1,8 @@
 *Sponsored by MrAugu: Join my [discord server](https://discord.gg/rk7cVyk).*
 
+**Instead of completing the guide, i've opened a repo with most basic dashboard ever: [https://github.com/MrAugu/discord-bot-dashboard](https://github.com/MrAugu/discord-bot-dashboard)**
+
+
 # Intoduction
 In this guide we'll be creating a small discord bot dashboard for managing guild settings, nothing too fancy. This is currently being worked on.
 
