@@ -216,7 +216,7 @@ In our `header.ejs` we'll be having our `<html>` and `<head>` tag and everything
 <!DOCTYPE html>
 <html>
   <head>
-  <title><%= title %></title> <!-- We'll be setting the title of the page to a title varable that we'll pass in inside each template. -->
+  <title><%= title %></title> <!-- We'll be setting the title of the page to a title variable that we'll pass in inside each template. -->
   <link rel="stylesheet" type="text/css" href="assets/style.css"> <!-- Linking our CSS file (we are about to create) from the assets folder. -->
   </head>
   <body>
@@ -224,7 +224,7 @@ In our `header.ejs` we'll be having our `<html>` and `<head>` tag and everything
 
 *b) Creating `footer.ejs`*
 ```ejs
-  </boody>
+  </body>
 </html>
 ```
 Now we are going to create a `style.css` file inside `dashboard/assets` folder.
